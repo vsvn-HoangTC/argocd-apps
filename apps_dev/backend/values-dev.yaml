@@ -1,0 +1,10 @@
+# values-dev.yaml
+replicaCount: 2
+image:
+  repository: acrsmailesoutheastasia001.azurecr.io/smaile-backend
+  tag: latest
+service:
+  type: ClusterIP
+  port: 80
+env:
+  APP_ENV: dev
