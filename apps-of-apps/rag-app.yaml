@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: verigen-umbrella
+  name: verigen-rag
   namespace: argocd
 spec:
   project: default
