@@ -32,6 +32,11 @@ backend:
 worker:
   enabled: true
 
+replicaCount:
+  frontend: 1
+  backend: 1
+  worker: 1
+
 namespace: "default"
 
 service:
