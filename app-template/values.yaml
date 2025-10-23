@@ -21,3 +21,25 @@ syncPolicy:
     selfHeal: true
   syncOptions:
     - CreateNamespace=true
+
+# Default values for templates
+frontend:
+  enabled: true
+
+backend:
+  enabled: true
+
+worker:
+  enabled: true
+
+namespace: "default"
+
+service:
+  frontend:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+  backend:
+    type: ClusterIP
+    port: 8000
+    targetPort: 8000
