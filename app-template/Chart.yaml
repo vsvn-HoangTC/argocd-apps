@@ -1,6 +1,6 @@
 apiVersion: v2
-name: argocd-app-template
-description: Template chung cho tất cả ArgoCD applications
-type: application
+name: app-template
+description: Common template for all ArgoCD applications
+type: library
 version: 0.1.0
 appVersion: "1.0"

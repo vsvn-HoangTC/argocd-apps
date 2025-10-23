@@ -6,5 +6,5 @@ appVersion: "1.0"
 
 dependencies:
   - name: app-template
-    version: "*"
-    repository: "file://../app-template"
+    version: "0.1.0"
+    repository: "https://github.com/vsvn-HoangTC/argocd-apps/app-template"
