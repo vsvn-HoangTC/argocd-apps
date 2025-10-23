@@ -12,6 +12,7 @@ spec:
       ref: template
     - repoURL: https://github.com/vsvn-HoangTC/vsvn-RAG.git
       targetRevision: main
+      path: apps-RAG
       ref: values
   source:
     repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
