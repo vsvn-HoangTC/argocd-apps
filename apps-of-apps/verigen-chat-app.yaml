@@ -5,14 +5,22 @@ metadata:
   namespace: argocd
 spec:
   project: default
+  sources:
+    - repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
+      targetRevision: main
+      path: app-template
+      ref: template
+    - repoURL: https://github.com/vsvn-HoangTC/vsvn-verigenChat.git
+      targetRevision: main
+      ref: values
   source:
     repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
     targetRevision: main
     path: app-template
     helm:
       valueFiles:
-        - ../../apps-verigenChat/values.yaml
-        - ../../apps-verigenChat/values-dev.yaml
+        - $values/values.yaml
+        - $values/values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: verigen-chat
