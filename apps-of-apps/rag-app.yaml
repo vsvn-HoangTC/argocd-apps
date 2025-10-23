@@ -5,19 +5,10 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  sources:
-    - repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
-      targetRevision: main
-      path: app-template
-      ref: template
-      helm:
-        valueFiles:
-          - $values/values.yaml
-          - $values/values-dev.yaml
-    - repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
-      targetRevision: main
-      path: ../apps-RAG
-      ref: values
+  source:
+    repoURL: https://github.com/vsvn-HoangTC/vsvn-RAG.git
+    targetRevision: main
+    path: apps-RAG
   destination:
     server: https://kubernetes.default.svc
     namespace: rag-system
