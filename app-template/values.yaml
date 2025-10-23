@@ -58,7 +58,7 @@ backend:
   volumes: []
 
 worker:
-  enabled: true
+  enabled: false
   env: {}
 
 service:
