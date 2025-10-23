@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/vsvn-HoangTC/argocd-apps.git'
+    repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
     path: apps-of-apps
     targetRevision: main
     directory:
@@ -18,49 +18,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
----
-# Child app: rag
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: rag
-  namespace: argocd
-spec:
-  project: default
-  source:
-    repoURL: 'https://github.com/vsvn-HoangTC/argocd-apps.git'
-    path: apps-RAG
-    targetRevision: main
-    helm:
-      valueFiles:
-        - values-dev.yaml
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: rag
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-# Child app: verigenchat
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: verigenchat
-  namespace: argocd
-spec:
-  project: default
-  source:
-    repoURL: 'https://github.com/vsvn-HoangTC/argocd-apps.git'
-    path: apps-verigenChat
-    targetRevision: main
-    helm:
-      valueFiles:
-        - values.yaml
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: verigenchat
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
