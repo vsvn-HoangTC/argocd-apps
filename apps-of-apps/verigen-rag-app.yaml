@@ -19,8 +19,8 @@ spec:
     path: app-template
     helm:
       valueFiles:
-        - $values/apps-RAG/values.yaml
-        - $values/apps-RAG/values-dev.yaml
+        - $values/values.yaml
+        - $values/values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: verigen-rag

@@ -19,8 +19,8 @@ spec:
     path: app-template
     helm:
       valueFiles:
-        - $values/apps-verigenChat/values.yaml
-        - $values/apps-verigenChat/values-dev.yaml
+        - $values/values.yaml
+        - $values/values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: verigen-chat
