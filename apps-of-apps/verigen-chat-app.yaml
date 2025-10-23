@@ -10,18 +10,14 @@ spec:
       targetRevision: main
       path: app-template
       ref: template
+      helm:
+        valueFiles:
+          - $values/values.yaml
+          - $values/values-dev.yaml
     - repoURL: https://github.com/vsvn-HoangTC/vsvn-verigenChat.git
       targetRevision: main
       path: apps-verigenChat
       ref: values
-  source:
-    repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
-    targetRevision: main
-    path: app-template
-    helm:
-      valueFiles:
-        - $values/values.yaml
-        - $values/values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: verigen-chat
