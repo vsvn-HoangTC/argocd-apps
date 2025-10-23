@@ -14,9 +14,9 @@ spec:
         valueFiles:
           - $values/values.yaml
           - $values/values-dev.yaml
-    - repoURL: https://github.com/vsvn-HoangTC/vsvn-verigenChat.git
+    - repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
       targetRevision: main
-      path: apps-verigenChat
+      path: ../apps-verigenChat
       ref: values
   destination:
     server: https://kubernetes.default.svc
