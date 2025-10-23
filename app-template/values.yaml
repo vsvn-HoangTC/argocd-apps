@@ -23,14 +23,6 @@ syncPolicy:
     - CreateNamespace=true
 
 # Default values for templates
-frontend:
-  enabled: true
-
-backend:
-  enabled: true
-
-worker:
-  enabled: true
 
 replicaCount:
   frontend: 1
@@ -38,6 +30,36 @@ replicaCount:
   worker: 1
 
 namespace: "default"
+
+image:
+  frontend: ""
+  backend: ""
+  worker: ""
+  pullPolicy: Always
+
+imagePullSecrets: ""
+
+resources:
+  frontend: {}
+  backend: {}
+  worker: {}
+
+frontend:
+  enabled: true
+  env: {}
+  envFrom: []
+
+backend:
+  enabled: true
+  command: []
+  env: {}
+  envFrom: []
+  volumeMounts: []
+  volumes: []
+
+worker:
+  enabled: true
+  env: {}
 
 service:
   frontend:
