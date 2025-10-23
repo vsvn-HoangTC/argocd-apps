@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/vsvn-HoangTC/vsvn-verigenChat.git
+    repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
     targetRevision: main
     path: apps-verigenChat
   destination:

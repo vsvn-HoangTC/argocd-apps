@@ -1,17 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rag-app
+  name: verigen-umbrella
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/vsvn-HoangTC/vsvn-RAG.git
+    repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
     targetRevision: main
-    path: apps-RAG
+    path: umbrella-chart
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: rag-system
+    namespace: default
   syncPolicy:
     automated:
       prune: true
