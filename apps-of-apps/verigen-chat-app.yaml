@@ -14,7 +14,7 @@ spec:
       targetRevision: main
       ref: values
   source:
-    repoURL: https://github.com/vsvn-HoangTC/vsvn-verigenChat.git
+    repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
     targetRevision: main
     path: app-template
     helm:

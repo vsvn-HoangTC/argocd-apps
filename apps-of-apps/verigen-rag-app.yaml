@@ -14,7 +14,7 @@ spec:
       targetRevision: main
       ref: values
   source:
-    repoURL: hhttps://github.com/vsvn-HoangTC/vsvn-RAG.git
+    repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
     targetRevision: main
     path: app-template
     helm:
