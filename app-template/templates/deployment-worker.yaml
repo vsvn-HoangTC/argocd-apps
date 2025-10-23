@@ -1,0 +1,38 @@
+{{- if .Values.worker.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-worker
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount.worker }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-worker
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-worker
+    spec:
+      containers:
+        - name: worker
+          image: {{ .Values.image.worker }}
+          {{- if .Values.worker.env }}
+          env:
+            {{- range $key, $value := .Values.worker.env }}
+            - name: {{ $key }}
+              {{- if kindIs "string" $value }}
+              value: {{ $value | quote }}
+              {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $value.secretKeyRef.name }}
+                  key: {{ $value.secretKeyRef.key }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.resources.worker }}
+          resources:
+            {{- toYaml .Values.resources.worker | nindent 12 }}
+          {{- end }}
+{{- end }}

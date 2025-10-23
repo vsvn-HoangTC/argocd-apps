@@ -1,22 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: backend-stag
+  name: rag-app
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/vsvn-HoangTC/Testproject.git
-    targetRevision: main
-    path: charts/backend
+    repoURL: https://github.com/vsvn-HoangTC/argocd-apps
+    targetRevision: HEAD
+    path: apps-RAG
     helm:
       valueFiles:
-        - ../../apps_stag/backend/values-stag.yaml
-        - ../../apps_stag/backend/secrets.yaml
+        - values.yaml
+        - values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: test-stag
+    namespace: rag-system
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

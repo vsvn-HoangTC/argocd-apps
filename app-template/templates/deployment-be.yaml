@@ -1,0 +1,76 @@
+{{- if .Values.backend.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-backend
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount.backend }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-backend
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-backend
+    spec:
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
+      {{- end }}
+      containers:
+        - name: backend
+          image: {{ .Values.image.backend }}
+          ports:
+            - containerPort: {{ .Values.service.backend.targetPort }}
+          {{- if .Values.backend.command }}
+          command:
+            {{- range .Values.backend.command }}
+            - {{ . }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.backend.env }}
+          env:
+            {{- range $key, $value := .Values.backend.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.backend.envFrom }}
+          envFrom:
+            {{- range .Values.backend.envFrom }}
+            {{- if .secretRef }}
+            - secretRef:
+                name: {{ .secretRef.name }}
+            {{- end }}
+            {{- if .configMapRef }}
+            - configMapRef:
+                name: {{ .configMapRef.name }}
+            {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.backend.volumeMounts }}
+          volumeMounts:
+            {{- range .Values.backend.volumeMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.resources.backend }}
+          resources:
+            {{- toYaml .Values.resources.backend | nindent 12 }}
+          {{- end }}
+      {{- if .Values.backend.volumes }}
+      volumes:
+        {{- range .Values.backend.volumes }}
+        - name: {{ .name }}
+          {{- if .emptyDir }}
+          emptyDir: {}
+          {{- end }}
+          {{- if .persistentVolumeClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .persistentVolumeClaim.claimName }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+{{- end }}

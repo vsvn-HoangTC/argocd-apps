@@ -1,0 +1,86 @@
+# Development environment values
+namespace: rag-dev
+
+image:
+  frontend: vsvndev/rag_fe-blue:dev
+  backend: vsvndev/rag_be-blue:dev
+  worker: vsvndev/rag_worker:dev
+
+replicaCount:
+  frontend: 1
+  backend: 1
+  worker: 1
+
+ingress:
+  enabled: true
+  className: nginx
+  host: rag-dev.veriserve-vietnam.com
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+  tls:
+    enabled: false
+
+postgres:
+  enabled: true
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "50m"
+    limits:
+      memory: "256Mi"
+      cpu: "100m"
+
+mongo:
+  enabled: true
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "50m"
+    limits:
+      memory: "256Mi"
+      cpu: "100m"
+
+redis:
+  enabled: true
+  persistence:
+    enabled: false
+
+qdrant:
+  enabled: true
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "200m"
+
+resources:
+  frontend:
+    requests:
+      memory: "64Mi"
+      cpu: "50m"
+    limits:
+      memory: "128Mi"
+      cpu: "100m"
+  backend:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+  worker:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"

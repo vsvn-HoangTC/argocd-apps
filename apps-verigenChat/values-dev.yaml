@@ -1,0 +1,41 @@
+namespace: verigenchat
+environment: dev
+
+image:
+  backend: vsvndev/chatgpt_backend-blue:dev
+  frontend: vsvndev/chatgpt_frontend-blue:dev
+  postgres: postgres:15
+
+replicaCount:
+  backend: 1
+  frontend: 1
+
+ingress:
+  enabled: true
+  className: istio
+  hosts:
+    - host: verigenchat.dev.veriserve-vietnam.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+aws:
+  region: ap-northeast-1
+  s3:
+    bucket: verigenchat-dev-bucket
+  credentials:
+    accessKeyId: "YOUR_ACCESS_KEY_ID"
+    secretAccessKey: "YOUR_SECRET_ACCESS_KEY"
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: "dev"
+  - name: DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: verigenchat-secret
+        key: database-url
+  - name: AWS_REGION
+    value: ap-northeast-1
+  - name: S3_BUCKET
+    value: verigenchat-dev-bucket

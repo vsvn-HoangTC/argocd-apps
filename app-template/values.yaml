@@ -1,0 +1,23 @@
+# Template mặc định cho ArgoCD Application
+appName: ""
+argoNamespace: "argocd"
+project: "default"
+
+source:
+  repoURL: ""
+  targetRevision: "HEAD"
+  path: ""
+  helm:
+    valueFiles:
+      - values.yaml
+
+destination:
+  server: "https://kubernetes.default.svc"
+  namespace: ""
+
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true

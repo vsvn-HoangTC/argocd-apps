@@ -1,0 +1,10 @@
+apiVersion: v2
+name: verigenchat
+description: Helm chart for VerigenChat
+version: 0.1.0
+appVersion: "1.0"
+
+dependencies:
+  - name: app-template
+    version: "*"
+    repository: "file://../app-template"

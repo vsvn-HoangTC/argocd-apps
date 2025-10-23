@@ -1,0 +1,41 @@
+namespace: verigenchat
+environment: stag
+
+image:
+  backend: vsvndev/chatgpt_backend-blue:stag
+  frontend: vsvndev/chatgpt_frontend-blue:stag
+  postgres: postgres:15
+
+replicaCount:
+  backend: 2
+  frontend: 2
+
+ingress:
+  enabled: true
+  className: istio
+  hosts:
+    - host: verigenchat.stag.veriserve-vietnam.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+aws:
+  region: ap-northeast-1
+  s3:
+    bucket: verigenchat-stag-bucket
+  credentials:
+    accessKeyId: "YOUR_ACCESS_KEY_ID"
+    secretAccessKey: "YOUR_SECRET_ACCESS_KEY"
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: "stag"
+  - name: DATABASE_URL
+    valueFrom:
+      secretKeyRef:
+        name: verigenchat-secret
+        key: database-url
+  - name: AWS_REGION
+    value: ap-northeast-1
+  - name: S3_BUCKET
+    value: verigenchat-stag-bucket

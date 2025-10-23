@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-apps
+  name: apps-of-apps
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
-    targetRevision: main
+    repoURL: 'https://github.com/vsvn-HoangTC/argocd-apps.git'
     path: apps-of-apps
+    targetRevision: main
     directory:
       recurse: true
   destination:
@@ -19,39 +19,47 @@ spec:
       prune: true
       selfHeal: true
 ---
+# Child app: rag
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-dev
+  name: rag
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
+    repoURL: 'https://github.com/vsvn-HoangTC/argocd-apps.git'
+    path: apps-RAG
     targetRevision: main
-    path: apps_dev
+    helm:
+      valueFiles:
+        - values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: rag
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
 ---
+# Child app: verigenchat
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-stag
+  name: verigenchat
   namespace: argocd
 spec:
   project: default
   source:
-    repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
+    repoURL: 'https://github.com/vsvn-HoangTC/argocd-apps.git'
+    path: apps-verigenChat
     targetRevision: main
-    path: apps_stag
+    helm:
+      valueFiles:
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: verigenchat
   syncPolicy:
     automated:
       prune: true

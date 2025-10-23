@@ -1,0 +1,51 @@
+{{- if .Values.frontend.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-frontend
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount.frontend }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-frontend
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-frontend
+    spec:
+      restartPolicy: Always
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
+      {{- end }}
+      containers:
+        - name: frontend
+          image: {{ .Values.image.frontend }}
+          ports:
+            - containerPort: {{ .Values.service.frontend.targetPort }}
+          {{- if .Values.frontend.env }}
+          env:
+            {{- range $key, $value := .Values.frontend.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.frontend.envFrom }}
+          envFrom:
+            {{- range .Values.frontend.envFrom }}
+            {{- if .secretRef }}
+            - secretRef:
+                name: {{ .secretRef.name }}
+            {{- end }}
+            {{- if .configMapRef }}
+            - configMapRef:
+                name: {{ .configMapRef.name }}
+            {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.resources.frontend }}
+          resources:
+            {{- toYaml .Values.resources.frontend | nindent 12 }}
+          {{- end }}
+{{- end }}

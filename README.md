@@ -1,23 +1,14 @@
-<<<<<<< HEAD
-# argocd-apps
-Argocd Apps of App
-=======
-# ArgoCD Apps of Apps Example
+# ArgoCD Apps (RAG + VerigenChat)
 
-This repository defines an ArgoCD "Apps of Apps" pattern managing multiple environments (dev, stag).
+This repository deploys the **RAG** and **VerigenChat** systems using ArgoCD + Helm.
 
-## Structure
-- `apps_dev/` → Environment: **test-dev**
-- `apps_stag/` → Environment: **test-stag**
-- `apps-of-apps/` → Root ArgoCD Application
+## Environments
+| Environment | Domain | Helm Values |
+|--------------|-----------------------------|-------------------|
+| dev | *.dev.veriserve-vietnam.com | values-dev.yaml |
+| stag | *.stag.veriserve-vietnam.com | values-stag.yaml |
 
-Each environment includes two apps: frontend & backend.
+## Deploy Flow
 
-## Usage
-1. Push this repo to GitHub.
-2. Apply root application to ArgoCD:
-   ```bash
-   kubectl apply -f apps-of-apps/application.yaml -n argocd
-   ```
-3. ArgoCD will auto-sync and create all child Applications.
->>>>>>> 4d49384 (init argocd apps structure)
+```bash
+kubectl apply -f apps-of-apps/application.yaml -n argocd
