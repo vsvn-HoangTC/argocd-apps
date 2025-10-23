@@ -43,3 +43,37 @@ service:
     type: ClusterIP
     port: 8000
     targetPort: 8000
+
+secrets:
+  enabled: true
+  jwtSecret: ""
+  openaiKey: ""
+
+postgres:
+  enabled: false
+  username: ""
+  password: ""
+  database: ""
+
+mongo:
+  enabled: false
+  username: ""
+  password: ""
+  database: ""
+
+redis:
+  enabled: false
+
+qdrant:
+  enabled: false
+
+mariadb:
+  enabled: false
+  username: ""
+  password: ""
+  database: ""
+
+minio:
+  enabled: false
+  accessKey: ""
+  secretKey: ""
