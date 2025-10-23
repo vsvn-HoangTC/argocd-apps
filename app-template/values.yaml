@@ -79,8 +79,27 @@ minio:
   secretKey: ""
 
 aws:
+  enabled: false
   region: ""
+  credentials:
+    accessKeyId: ""
+    secretAccessKey: ""
   s3:
     enabled: false
     endpoint: ""
     bucket: ""
+
+ingress:
+  enabled: false
+  className: "nginx"
+  host: ""
+  annotations: {}
+  hosts: []
+  tls:
+    enabled: false
+    secretName: ""
+
+dockerRegistry:
+  enabled: false
+  secretName: "docker-registry-secret"
+  dockerconfigjson: ""
