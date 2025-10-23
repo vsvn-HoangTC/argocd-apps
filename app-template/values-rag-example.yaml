@@ -1,0 +1,121 @@
+# Example values for RAG Application
+appName: verigen-rag
+namespace: verigen-rag
+
+# Define all 7 containers for RAG app
+containers:
+  rag-fe:
+    enabled: true
+    image: vsvndev/vsvn_rag:frontend-latest
+    replicas: 1
+    containerPort: 3000
+    service:
+      enabled: true
+      port: 80
+      targetPort: 3000
+      type: ClusterIP
+    env:
+      REACT_APP_API_URL: "http://rag-be:8000"
+  
+  rag-be:
+    enabled: true
+    image: vsvndev/vsvn_rag:backend-latest
+    replicas: 1
+    containerPort: 8000
+    service:
+      enabled: true
+      port: 8000
+      targetPort: 8000
+      type: ClusterIP
+    env:
+      DATABASE_URL: "postgresql://user:pass@rag-postgres:5432/ragdb"
+      MONGO_URL: "mongodb://rag-mongo:27017"
+      REDIS_URL: "redis://rag-redis:6379"
+      QDRANT_URL: "http://rag-qdrant:6333"
+  
+  rag-worker:
+    enabled: true
+    image: vsvndev/vsvn_rag:worker-latest
+    replicas: 1
+    env:
+      DATABASE_URL: "postgresql://user:pass@rag-postgres:5432/ragdb"
+      REDIS_URL: "redis://rag-redis:6379"
+  
+  rag-mongo:
+    enabled: true
+    image: mongo:6
+    replicas: 1
+    containerPort: 27017
+    service:
+      enabled: true
+      port: 27017
+      targetPort: 27017
+    volumeMounts:
+      - name: mongo-data
+        mountPath: /data/db
+    volumes:
+      - name: mongo-data
+        persistentVolumeClaim:
+          claimName: rag-mongo-pvc
+  
+  rag-postgres:
+    enabled: true
+    image: postgres:15
+    replicas: 1
+    containerPort: 5432
+    service:
+      enabled: true
+      port: 5432
+      targetPort: 5432
+    env:
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "pass"
+      POSTGRES_DB: "ragdb"
+    volumeMounts:
+      - name: postgres-data
+        mountPath: /var/lib/postgresql/data
+    volumes:
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: rag-postgres-pvc
+  
+  rag-qdrant:
+    enabled: true
+    image: qdrant/qdrant:latest
+    replicas: 1
+    containerPort: 6333
+    service:
+      enabled: true
+      port: 6333
+      targetPort: 6333
+    volumeMounts:
+      - name: qdrant-data
+        mountPath: /qdrant/storage
+    volumes:
+      - name: qdrant-data
+        persistentVolumeClaim:
+          claimName: rag-qdrant-pvc
+  
+  rag-redis:
+    enabled: true
+    image: redis:7
+    replicas: 1
+    containerPort: 6379
+    service:
+      enabled: true
+      port: 6379
+      targetPort: 6379
+    volumeMounts:
+      - name: redis-data
+        mountPath: /data
+    volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: rag-redis-pvc
+
+ingress:
+  enabled: true
+  className: nginx
+  host: verigen-rag.dev.veriserve-vietnam.com
+
+imagePullSecrets: docker-registry-secret

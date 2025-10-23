@@ -1,11 +1,11 @@
-{{- if .Values.frontend.enabled }}
+{{- if or .Values.components.frontend.enabled .Values.frontend.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-frontend
   namespace: {{ .Values.namespace }}
 spec:
-  replicas: {{ .Values.replicaCount.frontend }}
+  replicas: {{ .Values.components.frontend.replicas | default .Values.replicaCount.frontend }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}-frontend
@@ -21,19 +21,19 @@ spec:
       {{- end }}
       containers:
         - name: frontend
-          image: {{ .Values.image.frontend }}
+          image: {{ .Values.components.frontend.image | default .Values.image.frontend }}
           ports:
-            - containerPort: {{ .Values.service.frontend.targetPort }}
-          {{- if .Values.frontend.env }}
+            - containerPort: {{ .Values.components.frontend.targetPort | default .Values.service.frontend.targetPort }}
+          {{- if or .Values.components.frontend.env .Values.frontend.env }}
           env:
-            {{- range $key, $value := .Values.frontend.env }}
+            {{- range $key, $value := (.Values.components.frontend.env | default .Values.frontend.env) }}
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
           {{- end }}
-          {{- if .Values.frontend.envFrom }}
+          {{- if or .Values.components.frontend.envFrom .Values.frontend.envFrom }}
           envFrom:
-            {{- range .Values.frontend.envFrom }}
+            {{- range (.Values.components.frontend.envFrom | default .Values.frontend.envFrom) }}
             {{- if .secretRef }}
             - secretRef:
                 name: {{ .secretRef.name }}
@@ -44,8 +44,8 @@ spec:
             {{- end }}
             {{- end }}
           {{- end }}
-          {{- if .Values.resources.frontend }}
+          {{- if or .Values.components.frontend.resources .Values.resources.frontend }}
           resources:
-            {{- toYaml .Values.resources.frontend | nindent 12 }}
+            {{- toYaml (.Values.components.frontend.resources | default .Values.resources.frontend) | nindent 12 }}
           {{- end }}
 {{- end }}

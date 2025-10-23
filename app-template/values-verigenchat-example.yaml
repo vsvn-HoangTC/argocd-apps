@@ -1,0 +1,95 @@
+# Example values for VerigenChat Application
+appName: verigen-chat
+namespace: verigen-chat
+
+# Define all 4 containers for VerigenChat app
+containers:
+  chatgpt-fe:
+    enabled: true
+    image: vsvndev/vsvn_chatgpt:frontend-latest
+    replicas: 1
+    containerPort: 3000
+    service:
+      enabled: true
+      port: 80
+      targetPort: 3000
+      type: ClusterIP
+    env:
+      REACT_APP_API_URL: "http://chatgpt-be:8000"
+  
+  chatgpt-be:
+    enabled: true
+    image: vsvndev/vsvn_chatgpt:backend-latest
+    replicas: 1
+    containerPort: 8000
+    service:
+      enabled: true
+      port: 8000
+      targetPort: 8000
+      type: ClusterIP
+    env:
+      DATABASE_URL: "mysql://chatgpt_user:changeme@chatgpt-database:3306/chatgpt_db"
+      S3_ENDPOINT: "http://chatgpt-s3:9000"
+    envFrom:
+      - secretRef:
+          name: chatgpt-secrets
+  
+  chatgpt-database:
+    enabled: true
+    image: mariadb:latest
+    replicas: 1
+    containerPort: 3306
+    service:
+      enabled: true
+      port: 3306
+      targetPort: 3306
+    env:
+      MYSQL_ROOT_PASSWORD: "changeme"
+      MYSQL_DATABASE: "chatgpt_db"
+      MYSQL_USER: "chatgpt_user"
+      MYSQL_PASSWORD: "changeme"
+    volumeMounts:
+      - name: mariadb-data
+        mountPath: /var/lib/mysql
+    volumes:
+      - name: mariadb-data
+        persistentVolumeClaim:
+          claimName: chatgpt-mariadb-pvc
+  
+  chatgpt-s3:
+    enabled: true
+    image: minio/minio:latest
+    replicas: 1
+    containerPort: 9000
+    service:
+      enabled: true
+      port: 9000
+      targetPort: 9000
+    command:
+      - "minio"
+      - "server"
+      - "/data"
+      - "--console-address"
+      - ":9001"
+    env:
+      MINIO_ROOT_USER: "minioadmin"
+      MINIO_ROOT_PASSWORD: "minioadmin"
+    volumeMounts:
+      - name: minio-data
+        mountPath: /data
+    volumes:
+      - name: minio-data
+        persistentVolumeClaim:
+          claimName: chatgpt-minio-pvc
+
+ingress:
+  enabled: true
+  className: nginx
+  host: verigen-chat.dev.veriserve-vietnam.com
+
+secrets:
+  enabled: true
+  jwtSecret: "CHANGE_ME_JWT"
+  openaiKey: "CHANGE_ME_OPENAI"
+
+imagePullSecrets: docker-registry-secret

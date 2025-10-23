@@ -23,43 +23,140 @@ syncPolicy:
     - CreateNamespace=true
 
 # Default values for templates
-
-replicaCount:
-  frontend: 1
-  backend: 1
-  worker: 1
-
 namespace: "default"
 
+# Flexible Container Configuration
+# Define any number of containers with custom configurations
+containers: {}
+  # Example structure:
+  # rag-fe:
+  #   enabled: true
+  #   image: "your-image:tag"
+  #   replicas: 1
+  #   containerPort: 3000
+  #   service:
+  #     enabled: true
+  #     port: 80
+  #     targetPort: 3000
+  #     type: ClusterIP
+  #   env: {}
+  #   envFrom: []
+  #   command: []
+  #   args: []
+  #   volumeMounts: []
+  #   volumes: []
+  #   resources: {}
+
+# Legacy: Application Components - Use 'containers' instead
+components:
+  frontend:
+    enabled: false
+    image: ""
+    replicas: 1
+    port: 80
+    targetPort: 80
+    env: {}
+    envFrom: []
+    resources: {}
+  
+  backend:
+    enabled: false
+    image: ""
+    replicas: 1
+    port: 8000
+    targetPort: 8000
+    command: []
+    env: {}
+    envFrom: []
+    volumeMounts: []
+    volumes: []
+    resources: {}
+  
+  worker:
+    enabled: false
+    image: ""
+    replicas: 1
+    env: {}
+    resources: {}
+
+# Database Services
+databases:
+  postgres:
+    enabled: false
+    image: "postgres:15"
+    username: ""
+    password: ""
+    database: ""
+    persistence:
+      enabled: true
+      size: "10Gi"
+  
+  mongo:
+    enabled: false
+    image: "mongo:6"
+    username: ""
+    password: ""
+    database: ""
+    persistence:
+      enabled: true
+      size: "10Gi"
+  
+  mariadb:
+    enabled: false
+    image: "mariadb:latest"
+    username: ""
+    password: ""
+    database: ""
+    rootPassword: ""
+    persistence:
+      enabled: true
+      size: "10Gi"
+  
+  redis:
+    enabled: false
+    image: "redis:7"
+    persistence:
+      enabled: true
+      size: "5Gi"
+  
+  qdrant:
+    enabled: false
+    image: "qdrant/qdrant:latest"
+    persistence:
+      enabled: true
+      size: "10Gi"
+
+# Storage Services
+storage:
+  minio:
+    enabled: false
+    image: "minio/minio:latest"
+    accessKey: ""
+    secretKey: ""
+    persistence:
+      enabled: true
+      size: "20Gi"
+
+# Legacy compatibility (will be deprecated)
 image:
   frontend: ""
   backend: ""
   worker: ""
   pullPolicy: Always
 
-imagePullSecrets: ""
-
-resources:
-  frontend: {}
-  backend: {}
-  worker: {}
+replicaCount:
+  frontend: 1
+  backend: 1
+  worker: 1
 
 frontend:
-  enabled: true
-  env: {}
-  envFrom: []
+  enabled: false
 
 backend:
-  enabled: true
-  command: []
-  env: {}
-  envFrom: []
-  volumeMounts: []
-  volumes: []
+  enabled: false
 
 worker:
   enabled: false
-  env: {}
 
 service:
   frontend:
@@ -72,7 +169,7 @@ service:
     targetPort: 8000
 
 secrets:
-  enabled: true
+  enabled: false
   jwtSecret: ""
   openaiKey: ""
 
@@ -130,3 +227,10 @@ dockerRegistry:
   enabled: false
   secretName: "docker-registry-secret"
   dockerconfigjson: ""
+
+imagePullSecrets: ""
+
+resources:
+  frontend: {}
+  backend: {}
+  worker: {}
