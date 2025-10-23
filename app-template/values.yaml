@@ -77,3 +77,10 @@ minio:
   enabled: false
   accessKey: ""
   secretKey: ""
+
+aws:
+  region: ""
+  s3:
+    enabled: false
+    endpoint: ""
+    bucket: ""
