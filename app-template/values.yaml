@@ -137,36 +137,7 @@ storage:
       enabled: true
       size: "20Gi"
 
-# Legacy compatibility (will be deprecated)
-image:
-  frontend: ""
-  backend: ""
-  worker: ""
-  pullPolicy: Always
 
-replicaCount:
-  frontend: 1
-  backend: 1
-  worker: 1
-
-frontend:
-  enabled: false
-
-backend:
-  enabled: false
-
-worker:
-  enabled: false
-
-service:
-  frontend:
-    type: ClusterIP
-    port: 80
-    targetPort: 80
-  backend:
-    type: ClusterIP
-    port: 8000
-    targetPort: 8000
 
 secrets:
   enabled: false

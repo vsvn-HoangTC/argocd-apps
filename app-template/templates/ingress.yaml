@@ -21,23 +21,26 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          # {{- if .Values.backend.enabled }}
-          # - path: /api
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: {{ .Release.Name }}-backend
-          #       port:
-          #         number: {{ .Values.service.backend.port }}
-          # {{- end }}
-          {{- if .Values.frontend.enabled }}
+          {{- range $name, $config := .Values.containers }}
+          {{- if and $config.enabled $config.service $config.service.enabled }}
+          {{- if or (contains "backend" $name) (contains "be" $name) }}
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Release.Name }}-{{ $name }}
+                port:
+                  number: {{ $config.service.port }}
+          {{- else if or (contains "frontend" $name) (contains "fe" $name) }}
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Release.Name }}-frontend
+                name: {{ $.Release.Name }}-{{ $name }}
                 port:
-                  number: {{ .Values.service.frontend.port }}
+                  number: {{ $config.service.port }}
+          {{- end }}
+          {{- end }}
           {{- end }}
     {{- end }}
     {{- range .Values.ingress.hosts }}
