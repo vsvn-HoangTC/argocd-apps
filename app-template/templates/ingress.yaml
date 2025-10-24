@@ -21,23 +21,23 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          {{- if or .Values.backend.enabled (and .Values.containers (or .Values.containers.chat-backend.enabled .Values.containers.rag-backend.enabled)) }}
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Release.Name }}-backend
-                port:
-                  number: {{ if .Values.service.backend.port }}{{ .Values.service.backend.port }}{{ else }}8000{{ end }}
-          {{- end }}
-          {{- if or .Values.frontend.enabled (and .Values.containers (or .Values.containers.chat-frontend.enabled .Values.containers.rag-frontend.enabled)) }}
+          # {{- if .Values.backend.enabled }}
+          # - path: /api
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: {{ .Release.Name }}-backend
+          #       port:
+          #         number: {{ .Values.service.backend.port }}
+          # {{- end }}
+          {{- if .Values.frontend.enabled }}
           - path: /
             pathType: Prefix
             backend:
               service:
                 name: {{ .Release.Name }}-frontend
                 port:
-                  number: {{ if .Values.service.frontend.port }}{{ .Values.service.frontend.port }}{{ else if .Values.containers.chat-frontend.service.port }}{{ .Values.containers.chat-frontend.service.port }}{{ else if .Values.containers.rag-frontend.service.port }}{{ .Values.containers.rag-frontend.service.port }}{{ else }}80{{ end }}
+                  number: {{ .Values.service.frontend.port }}
           {{- end }}
     {{- end }}
     {{- range .Values.ingress.hosts }}
