@@ -224,11 +224,14 @@ ingress:
     secretName: ""
 
 dockerRegistry:
-  enabled: false
+  enabled: true
+  username: ""
+  token: ""
+  email: ""
   secretName: "docker-registry-secret"
   dockerconfigjson: ""
 
-imagePullSecrets: ""
+imagePullSecrets: "docker-registry-secret"
 
 resources:
   frontend: {}
