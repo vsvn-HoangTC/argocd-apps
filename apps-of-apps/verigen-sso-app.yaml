@@ -13,7 +13,7 @@ spec:
         valueFiles:
           - $values/values.yaml
           - $values/values-dev.yaml
-    - repoURL: https://github.com/vsvn-HoangTC/apps-sso-allAItech.git
+    - repoURL: https://github.com/vsvn-HoangTC/vsvn-sso-allAItech.git
       targetRevision: main
       ref: values
   destination:
