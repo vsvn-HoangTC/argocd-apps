@@ -13,6 +13,9 @@ spec:
         valueFiles:
           - values.yaml
           - values-dev.yaml
+    - repoURL: https://github.com/vsvn-HoangTC/vsvn-RAG.git
+      targetRevision: main
+      ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: verigen-sso
