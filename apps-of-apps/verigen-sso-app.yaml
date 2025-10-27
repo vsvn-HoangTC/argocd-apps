@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: verigen-sso
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/vsvn-HoangTC/apps-sso-allAItech.git
+      targetRevision: main
+      path: .
+      helm:
+        valueFiles:
+          - values.yaml
+          - values-dev.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: verigen-sso
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

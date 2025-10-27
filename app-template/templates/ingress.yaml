@@ -4,8 +4,10 @@ kind: Ingress
 metadata:
   name: {{ .Release.Name }}-ingress
   namespace: {{ .Values.namespace }}
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
   annotations:
-    kubernetes.io/ingress.class: {{ .Values.ingress.className }}
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
