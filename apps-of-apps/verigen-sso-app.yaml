@@ -6,14 +6,14 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: https://github.com/vsvn-HoangTC/apps-sso-allAItech.git
+    - repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
       targetRevision: main
-      path: .
+      path: app-template
       helm:
         valueFiles:
-          - values.yaml
-          - values-dev.yaml
-    - repoURL: https://github.com/vsvn-HoangTC/vsvn-RAG.git
+          - $values/values.yaml
+          - $values/values-dev.yaml
+    - repoURL: https://github.com/vsvn-HoangTC/apps-sso-allAItech.git
       targetRevision: main
       ref: values
   destination:
