@@ -42,9 +42,13 @@ spec:
           {{- end }}
           {{- if $config.env }}
           env:
+            {{- if kindIs "slice" $config.env }}
+            {{- toYaml $config.env | nindent 12 }}
+            {{- else }}
             {{- range $key, $value := $config.env }}
             - name: {{ $key }}
               value: {{ $value | quote }}
+            {{- end }}
             {{- end }}
           {{- end }}
           {{- if $config.envFrom }}
