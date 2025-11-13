@@ -6,14 +6,14 @@ metadata:
 spec:
   project: default
   sources:
-    - repoURL: https://github.com/vsvn-HoangTC/argocd-apps.git
+    - repoURL: https://github.com/Veriserve-Vietnam/vsvn_infra.git
       targetRevision: main
       path: app-template
       helm:
         valueFiles:
           - $values/values.yaml
           - $values/values-dev.yaml
-    - repoURL: https://github.com/vsvn-HoangTC/vsvn-RAG.git
+    - repoURL: https://github.com/Veriserve-Vietnam/vsvn_infra.git
       targetRevision: main
       ref: values
   destination:

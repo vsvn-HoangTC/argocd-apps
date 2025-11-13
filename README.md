@@ -42,12 +42,12 @@ kubectl apply -f apps-of-apps/verigen-chat-app.yaml -n argocd
 
 ### Verigen RAG
 - **Namespace**: `verigen-rag`
-- **Values Repo**: https://github.com/vsvn-HoangTC/vsvn-RAG.git
+- **Values Repo**: https://github.com/Veriserve-Vietnam/vsvn_infra.git
 - **Values Files**: `values.yaml`, `values-dev.yaml`
 
 ### Verigen Chat
 - **Namespace**: `verigen-chat`
-- **Values Repo**: https://github.com/vsvn-HoangTC/vsvn-verigenChat.git
+- **Values Repo**: https://github.com/Veriserve-Vietnam/vsvn_infra.git
 - **Values Files**: `values.yaml`, `values-dev.yaml`
 
 ## Sync Policy
